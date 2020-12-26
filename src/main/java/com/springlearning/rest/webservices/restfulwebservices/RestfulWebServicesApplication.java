@@ -1,8 +1,8 @@
 package com.springlearning.rest.webservices.restfulwebservices;
 
 import com.springlearning.rest.webservices.restfulwebservices.configs.AwsCredentialConfig;
+import com.springlearning.rest.webservices.restfulwebservices.configs.AwsSqsConfig;
 import com.springlearning.rest.webservices.restfulwebservices.configs.DynamoProperties;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -14,14 +14,15 @@ import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import software.amazon.awssdk.services.dynamodb.model.*;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3ClientBuilder;
+import software.amazon.awssdk.services.sqs.SqsClient;
+import software.amazon.awssdk.services.sqs.SqsClientBuilder;
 
 import java.util.Locale;
 
 @SpringBootApplication
-@EnableConfigurationProperties({DynamoProperties.class, AwsCredentialConfig.class})
+@EnableConfigurationProperties({DynamoProperties.class, AwsCredentialConfig.class, AwsSqsConfig.class})
 public class RestfulWebServicesApplication {
     public static void main(String[] args) {
         SpringApplication.run(RestfulWebServicesApplication.class, args);
@@ -70,28 +71,16 @@ public class RestfulWebServicesApplication {
     }
 
     @Bean
-    ApplicationRunner applicationRunner(DynamoDbClient dynamoDbClient) {
-        return args -> {
-            CreateTableRequest createTableRequest = CreateTableRequest
-                    .builder()
-                    .tableName("book")
-                    .keySchema(KeySchemaElement
-                            .builder()
-                            .keyType(KeyType.HASH)
-                            .attributeName("id")
-                            .build())
-                    .attributeDefinitions(AttributeDefinition
-                            .builder()
-                            .attributeName("id")
-                            .attributeType(ScalarAttributeType.S)
-                            .build())
-                    .provisionedThroughput(ProvisionedThroughput
-                            .builder()
-                            .writeCapacityUnits(5L)
-                            .readCapacityUnits(5L)
-                            .build())
-                    .build();
-            dynamoDbClient.createTable(createTableRequest);
-        };
+    SqsClient sqsClient(AwsCredentialsProvider awsCredentialsProvider, AwsSqsConfig awsSqsConfig) {
+        SqsClientBuilder builder = SqsClient.builder();
+        return builder.credentialsProvider(awsCredentialsProvider)
+                .endpointOverride(awsSqsConfig.getEndpoint())
+                .build();
     }
+
+
+//    @Bean
+//    ApplicationRunner applicationRunner(DynamoDbClient dynamoDbClient, SqsClient sqsClient) {
+//
+//    }
 }
