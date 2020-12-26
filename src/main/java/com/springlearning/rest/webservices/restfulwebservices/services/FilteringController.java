@@ -24,3 +24,8 @@ public class FilteringController {
     }
 }
 
+/*
+    i will push the email into queue
+        sns should send the notification of received item
+    lambda should poll data from queue
+ */
