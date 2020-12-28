@@ -1,4 +1,4 @@
-package com.springlearning.rest.webservices.restfulwebservices.services;
+package com.springlearning.rest.webservices.restfulwebservices.controllers;
 
 import com.springlearning.rest.webservices.restfulwebservices.beans.Name;
 import com.springlearning.rest.webservices.restfulwebservices.beans.PersonV1;

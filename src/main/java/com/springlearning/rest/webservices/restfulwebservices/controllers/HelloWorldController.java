@@ -1,4 +1,4 @@
-package com.springlearning.rest.webservices.restfulwebservices.services;
+package com.springlearning.rest.webservices.restfulwebservices.controllers;
 
 import com.springlearning.rest.webservices.restfulwebservices.beans.HelloWorldBean;
 import org.springframework.beans.factory.annotation.Autowired;

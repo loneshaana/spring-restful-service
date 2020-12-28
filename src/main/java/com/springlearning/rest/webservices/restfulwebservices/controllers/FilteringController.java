@@ -1,4 +1,4 @@
-package com.springlearning.rest.webservices.restfulwebservices.services;
+package com.springlearning.rest.webservices.restfulwebservices.controllers;
 
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;

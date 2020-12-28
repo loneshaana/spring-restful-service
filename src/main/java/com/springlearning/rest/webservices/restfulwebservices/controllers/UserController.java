@@ -1,7 +1,8 @@
-package com.springlearning.rest.webservices.restfulwebservices.services;
+package com.springlearning.rest.webservices.restfulwebservices.controllers;
 
 import com.springlearning.rest.webservices.restfulwebservices.beans.User;
 import com.springlearning.rest.webservices.restfulwebservices.exceptions.UserNotFoundException;
+import com.springlearning.rest.webservices.restfulwebservices.services.UserDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,11 +13,11 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-public class UserResource {
+public class UserController {
     @Autowired
     private final UserDaoService userService;
 
-    public UserResource(UserDaoService userService) {
+    public UserController(UserDaoService userService) {
         this.userService = userService;
     }
 

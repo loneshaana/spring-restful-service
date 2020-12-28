@@ -1,6 +1,5 @@
 package com.springlearning.rest.webservices.restfulwebservices.infra;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.*;
@@ -16,15 +15,18 @@ import java.util.Map;
     for creating aws components
  */
 @Controller
-public class Infra {
-    @Autowired
-    private DynamoDbClient dynamoDbClient;
+public class Infra implements InfraSetup {
+    private final DynamoDbClient dynamoDbClient;
 
-    @Autowired
-    private SqsClient sqsClient;
+    private final SqsClient sqsClient;
+
+    public Infra(SqsClient sqsClient, DynamoDbClient dynamoDbClient) {
+        this.sqsClient = sqsClient;
+        this.dynamoDbClient = dynamoDbClient;
+    }
 
     // create dynamo components
-    void createDynamoTable(String tableName, String uniqueAttributeName) {
+    public void createDynamoTable(String tableName, String uniqueAttributeName) {
         CreateTableRequest createTableRequest = CreateTableRequest
                 .builder()
                 .tableName(tableName)
@@ -48,7 +50,7 @@ public class Infra {
     }
 
     // create sqs components
-    void createQueue(String queueName) {
+    public void createQueue(String queueName) {
         Map<QueueAttributeName, String> attributes = new HashMap<>();
         attributes.put(QueueAttributeName.DELAY_SECONDS, "5");
         CreateQueueRequest queueRequest = CreateQueueRequest.builder().queueName(queueName).attributes(attributes).build();

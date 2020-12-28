@@ -1,10 +1,11 @@
-package com.springlearning.rest.webservices.restfulwebservices.services;
+package com.springlearning.rest.webservices.restfulwebservices.controllers;
 
 import com.springlearning.rest.webservices.restfulwebservices.beans.Post;
 import com.springlearning.rest.webservices.restfulwebservices.beans.User;
 import com.springlearning.rest.webservices.restfulwebservices.exceptions.UserNotFoundException;
 import com.springlearning.rest.webservices.restfulwebservices.respositories.PostRepository;
 import com.springlearning.rest.webservices.restfulwebservices.respositories.UserRepository;
+import com.springlearning.rest.webservices.restfulwebservices.services.UserDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class UserJpaResource {
+public class UserJpaController {
     @Autowired
     private final UserDaoService userService;
 
@@ -26,7 +27,7 @@ public class UserJpaResource {
     @Autowired
     private final UserRepository userRepository;
 
-    public UserJpaResource(UserDaoService userService, PostRepository postRepository, UserRepository userRepository) {
+    public UserJpaController(UserDaoService userService, PostRepository postRepository, UserRepository userRepository) {
         this.userService = userService;
         this.postRepository = postRepository;
         this.userRepository = userRepository;

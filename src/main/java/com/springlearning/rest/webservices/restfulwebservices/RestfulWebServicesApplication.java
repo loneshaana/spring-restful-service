@@ -1,8 +1,11 @@
 package com.springlearning.rest.webservices.restfulwebservices;
 
+import com.springlearning.rest.webservices.restfulwebservices.common.SqsQueue;
 import com.springlearning.rest.webservices.restfulwebservices.configs.AwsCredentialConfig;
 import com.springlearning.rest.webservices.restfulwebservices.configs.AwsSqsConfig;
 import com.springlearning.rest.webservices.restfulwebservices.configs.DynamoProperties;
+import com.springlearning.rest.webservices.restfulwebservices.infra.Infra;
+import com.springlearning.rest.webservices.restfulwebservices.infra.InfraSetup;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -78,9 +81,13 @@ public class RestfulWebServicesApplication {
                 .build();
     }
 
+    @Bean
+    InfraSetup infraSetup(SqsClient sqsClient, DynamoDbClient dynamoDbClient) {
+        return new Infra(sqsClient, dynamoDbClient);
+    }
 
-//    @Bean
-//    ApplicationRunner applicationRunner(DynamoDbClient dynamoDbClient, SqsClient sqsClient) {
-//
-//    }
+    @Bean
+    SqsQueue<Object> sqsObjectBean(SqsClient sqsClient, InfraSetup infraSetup) {
+        return new SqsQueue<>(Object.class, "testing", infraSetup, sqsClient);
+    }
 }
