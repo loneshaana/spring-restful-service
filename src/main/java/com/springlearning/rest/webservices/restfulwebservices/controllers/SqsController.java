@@ -1,6 +1,6 @@
 package com.springlearning.rest.webservices.restfulwebservices.controllers;
 
-import com.springlearning.rest.webservices.restfulwebservices.common.SqsQueue;
+import com.springlearning.rest.webservices.restfulwebservices.common.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SqsController {
 
     @Autowired
-    SqsQueue<Object> sqsObjectBean; // this is needs to be refactored
+    Queue<Object> sqsObjectBean; // this is needs to be refactored
 
     public SqsController() {
     }

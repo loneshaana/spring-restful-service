@@ -1,5 +1,6 @@
 package com.springlearning.rest.webservices.restfulwebservices;
 
+import com.springlearning.rest.webservices.restfulwebservices.common.Queue;
 import com.springlearning.rest.webservices.restfulwebservices.common.SqsQueue;
 import com.springlearning.rest.webservices.restfulwebservices.configs.AwsCredentialConfig;
 import com.springlearning.rest.webservices.restfulwebservices.configs.AwsSqsConfig;
@@ -87,7 +88,7 @@ public class RestfulWebServicesApplication {
     }
 
     @Bean
-    SqsQueue<Object> sqsObjectBean(SqsClient sqsClient, InfraSetup infraSetup) {
+    Queue<Object> sqsObjectBean(SqsClient sqsClient, InfraSetup infraSetup) {
         return new SqsQueue<>(Object.class, "testing", infraSetup, sqsClient);
     }
 }

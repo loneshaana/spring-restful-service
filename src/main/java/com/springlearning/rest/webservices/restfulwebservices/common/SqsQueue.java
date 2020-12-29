@@ -39,7 +39,7 @@ public final class SqsQueue<T> implements Queue<T> {
         this.infra = infra;
     }
 
-    public SqsQueue(MessageSerializer<T> messageSerializer, String queueName , InfraSetup infra , SqsClient sqsClient) {
+    public SqsQueue(MessageSerializer<T> messageSerializer, String queueName, InfraSetup infra, SqsClient sqsClient) {
         this.messageSerializer = messageSerializer;
         this.queueName = queueName;
         this.infra = infra;
@@ -47,8 +47,8 @@ public final class SqsQueue<T> implements Queue<T> {
         setQueueUrl();
     }
 
-    public SqsQueue(Type type, String queueName , InfraSetup infra , SqsClient sqsClient) {
-        this(new DefaultMessageSerializer<T>(type), queueName , infra , sqsClient);
+    public SqsQueue(Type type, String queueName, InfraSetup infra, SqsClient sqsClient) {
+        this(new DefaultMessageSerializer<T>(type), queueName, infra, sqsClient);
         shouldCreateQueueAtInitialization();
     }
 
