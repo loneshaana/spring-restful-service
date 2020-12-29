@@ -1,7 +1,5 @@
 package com.springlearning.rest.webservices.restfulwebservices.common;
 
-import org.springframework.stereotype.Controller;
-
 import java.lang.reflect.Type;
 
 public class DefaultMessageSerializer<T> implements MessageSerializer<T> {

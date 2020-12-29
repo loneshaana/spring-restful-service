@@ -1,4 +1,4 @@
-package com.springlearning.rest.webservices.restfulwebservices.common;
+package com.springlearning.rest.webservices.restfulwebservices.sqsComponents;
 
 import java.util.List;
 
@@ -14,4 +14,6 @@ public interface Queue<T> {
     ConsumedElement<T> peek();
 
     List<ConsumedElement<T>> peek(int numberOfElements);
+
+    List<ConsumedElement<T>> peek(int numberOfElement, Integer waitInSeconds);
 }

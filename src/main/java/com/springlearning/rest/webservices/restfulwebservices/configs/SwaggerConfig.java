@@ -18,9 +18,9 @@ import java.util.*;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
+    public static final Set<String> DEFAULT_PRODUCES_AND_CONSUMES = new HashSet<String>(Arrays.asList("application/json", "application/xml"));
     public static Contact DEFAULT_CONTACT = new Contact();
     public static final ApiInfo DEFAULT_API_INFO = new ApiInfo("Api Documentation", "", "", "", String.valueOf(DEFAULT_CONTACT), "", "");
-    public static final Set<String> DEFAULT_PRODUCES_AND_CONSUMES = new HashSet<String>(Arrays.asList("application/json", "application/xml"));
 
     @Bean
     public Docket api() {

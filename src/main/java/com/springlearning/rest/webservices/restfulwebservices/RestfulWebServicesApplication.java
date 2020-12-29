@@ -1,12 +1,12 @@
 package com.springlearning.rest.webservices.restfulwebservices;
 
-import com.springlearning.rest.webservices.restfulwebservices.common.Queue;
-import com.springlearning.rest.webservices.restfulwebservices.common.SqsQueue;
 import com.springlearning.rest.webservices.restfulwebservices.configs.AwsCredentialConfig;
 import com.springlearning.rest.webservices.restfulwebservices.configs.AwsSqsConfig;
 import com.springlearning.rest.webservices.restfulwebservices.configs.DynamoProperties;
 import com.springlearning.rest.webservices.restfulwebservices.infra.Infra;
 import com.springlearning.rest.webservices.restfulwebservices.infra.InfraSetup;
+import com.springlearning.rest.webservices.restfulwebservices.sqsComponents.*;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -24,6 +24,8 @@ import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.SqsClientBuilder;
 
 import java.util.Locale;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 @SpringBootApplication
 @EnableConfigurationProperties({DynamoProperties.class, AwsCredentialConfig.class, AwsSqsConfig.class})
@@ -90,5 +92,24 @@ public class RestfulWebServicesApplication {
     @Bean
     Queue<Object> sqsObjectBean(SqsClient sqsClient, InfraSetup infraSetup) {
         return new SqsQueue<>(Object.class, "testing", infraSetup, sqsClient);
+    }
+
+    @Bean
+    MessageConsumer<Object> messageConsumerBean() {
+        return new MessageConsumerService<Object>();
+    }
+
+    @Bean
+    SqsConsumerService<Object> sqsConsumerServiceLifeCycle(Queue<Object> sqsObjectBean, MessageConsumer<Object> messageConsumerBean) {
+        ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(5);
+        return new SqsConsumerService<Object>(scheduledExecutorService, sqsObjectBean, messageConsumerBean);
+    }
+
+    @Bean
+    ApplicationRunner applicationRunner(SqsConsumerService<Object> sqsConsumerServiceLifeCycle) {
+        return args -> {
+            System.out.println("Invoking Sqs polling");
+            sqsConsumerServiceLifeCycle.onStart();
+        };
     }
 }

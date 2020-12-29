@@ -25,7 +25,7 @@ public class User {
     @ApiModelProperty(notes = "Birthdate should be in the past")
     private Date birthDate;
 
-    @OneToMany(fetch = FetchType.LAZY , mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Post> posts;
 
     protected User() {

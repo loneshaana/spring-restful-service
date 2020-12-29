@@ -1,6 +1,6 @@
 package com.springlearning.rest.webservices.restfulwebservices.controllers;
 
-import com.springlearning.rest.webservices.restfulwebservices.common.Queue;
+import com.springlearning.rest.webservices.restfulwebservices.sqsComponents.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

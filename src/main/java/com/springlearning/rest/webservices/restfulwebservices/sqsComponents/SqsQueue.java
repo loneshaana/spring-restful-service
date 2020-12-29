@@ -1,11 +1,10 @@
-package com.springlearning.rest.webservices.restfulwebservices.common;
+package com.springlearning.rest.webservices.restfulwebservices.sqsComponents;
 
-import com.springlearning.rest.webservices.restfulwebservices.infra.Infra;
+import com.springlearning.rest.webservices.restfulwebservices.common.DefaultMessageSerializer;
+import com.springlearning.rest.webservices.restfulwebservices.common.MessageSerializer;
 import com.springlearning.rest.webservices.restfulwebservices.infra.InfraSetup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.model.*;
@@ -44,6 +43,7 @@ public final class SqsQueue<T> implements Queue<T> {
         this.queueName = queueName;
         this.infra = infra;
         this.sqsClient = sqsClient;
+        this.shouldCreateQueue = true; // @TODO hardCoded
         setQueueUrl();
     }
 
@@ -144,7 +144,7 @@ public final class SqsQueue<T> implements Queue<T> {
         return peek(numberOfElements, null);
     }
 
-    private List<ConsumedElement<T>> peek(int maxNumberOfMessages, Integer waitTimeSeconds) {
+    public List<ConsumedElement<T>> peek(int maxNumberOfMessages, Integer waitTimeSeconds) {
         List<ConsumedElement<T>> messages = new ArrayList<>();
         try {
             if (maxNumberOfMessages < 0) maxNumberOfMessages = 1;
@@ -177,7 +177,6 @@ public final class SqsQueue<T> implements Queue<T> {
     class SqsConsumedMessage<T> implements ConsumedElement<T> {
         private final Message sqsMessage;
         private final T element;
-
 
         public SqsConsumedMessage(Message message, T deserializedMessage) {
             this.element = deserializedMessage;
@@ -220,6 +219,13 @@ public final class SqsQueue<T> implements Queue<T> {
         @Override
         public void release() {
             suspend(0);
+        }
+
+        @Override
+        public String toString() {
+            return "SqsConsumedMessage{" +
+                    "element=" + element +
+                    '}';
         }
     }
 }
